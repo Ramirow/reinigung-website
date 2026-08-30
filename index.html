@@ -20,10 +20,14 @@
     <form
       name="anfrage"
       method="POST"
+      action="/"
+      netlify
       data-netlify="true"
+      netlify-honeypot="bot-field"
       data-netlify-honeypot="bot-field"
-      hidden
+      style="display: none"
     >
+      <input type="hidden" name="form-name" value="anfrage" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="tel" name="phone" />

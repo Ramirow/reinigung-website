@@ -7,10 +7,6 @@ const FORM_NAME = 'anfrage'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error' | 'local'
 
-function encode(data: Record<string, string>) {
-  return new URLSearchParams(data).toString()
-}
-
 function isLocalHost() {
   const { hostname } = window.location
   return hostname === 'localhost' || hostname === '127.0.0.1'
@@ -33,23 +29,23 @@ export function Termin() {
     setStatus('submitting')
 
     try {
+      const params = new URLSearchParams()
+      params.set('form-name', FORM_NAME)
+      for (const [key, value] of data.entries()) {
+        if (typeof value === 'string' && key !== 'form-name') {
+          params.append(key, value)
+        }
+      }
+
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          'form-name': FORM_NAME,
-          name: String(data.get('name') ?? ''),
-          email: String(data.get('email') ?? ''),
-          phone: String(data.get('phone') ?? ''),
-          size: String(data.get('size') ?? ''),
-          date: String(data.get('date') ?? ''),
-          message: String(data.get('message') ?? ''),
-          'bot-field': String(data.get('bot-field') ?? ''),
-        }),
+        body: params.toString(),
       })
 
-      if (!response.ok) {
-        throw new Error('submit-failed')
+      // Netlify often answers 404 on AJAX posts even when the form was stored.
+      if (!response.ok && response.status !== 404) {
+        throw new Error(`submit-failed-${response.status}`)
       }
 
       setStatus('success')
@@ -80,6 +76,7 @@ export function Termin() {
           <form
             name={FORM_NAME}
             method="POST"
+            action="/"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
             onSubmit={handleSubmit}

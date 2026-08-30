@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Anfrage</title>
+  </head>
+  <body>
+    <!--
+      Static form so Netlify can detect fields at deploy time.
+      React posts to this same form name ("anfrage").
+    -->
+    <form
+      name="anfrage"
+      method="POST"
+      action="/"
+      netlify
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      data-netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="anfrage" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="size" />
+      <input type="text" name="date" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
+  </body>
+</html>
