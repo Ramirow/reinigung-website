@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /anfrage.html
+
+Sitemap: /sitemap.xml

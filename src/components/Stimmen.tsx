@@ -1,3 +1,5 @@
+import { site } from '../config/site'
+
 export function Stimmen() {
   return (
     <section id="stimmen" className="bg-cream px-6 py-24 md:px-10 lg:px-14">
@@ -11,7 +13,7 @@ export function Stimmen() {
             empfehlen.&rdquo;
           </p>
           <footer className="mt-8 text-[0.9rem] text-muted">
-            — Platzhalter, Kundin aus [Stadt]
+            — Kundin{site.city ? ` aus ${site.city}` : ''}
           </footer>
         </blockquote>
       </div>

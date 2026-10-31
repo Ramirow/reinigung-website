@@ -24,6 +24,10 @@ export function Leistungen() {
         <h2 className="font-serif text-4xl tracking-tight text-ink md:text-5xl">
           Unsere Leistungen
         </h2>
+        <p className="mt-4 max-w-xl text-[1.05rem] leading-relaxed text-muted">
+          Wohnungsreinigung für Küche, Bad und alle Wohnräume – regelmäßig oder
+          einmalig.
+        </p>
         <div className="mt-14 grid gap-x-12 gap-y-12 sm:grid-cols-2">
           {services.map((service, index) => (
             <article

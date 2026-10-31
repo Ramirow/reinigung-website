@@ -1,72 +1,66 @@
-import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Ablauf } from './components/Ablauf'
+import { Faq } from './components/Faq'
 import { Footer } from './components/Footer'
+import { HashScroll } from './components/HashScroll'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
+import { JsonLd } from './components/JsonLd'
 import { Leistungen } from './components/Leistungen'
 import { Preise } from './components/Preise'
+import { Seo } from './components/Seo'
 import { Stimmen } from './components/Stimmen'
 import { Termin } from './components/Termin'
 import { TrustBar } from './components/TrustBar'
 import { Ueber } from './components/Ueber'
+import { homeDescription, homeTitle } from './config/site'
 import { Datenschutz } from './pages/Datenschutz'
 import { Impressum } from './pages/Impressum'
 
 function Home() {
   return (
-    <main>
-      <Hero />
-      <TrustBar />
-      <Leistungen />
-      <Ueber />
-      <Ablauf />
-      <Stimmen />
-      <Preise />
-      <Termin />
-    </main>
+    <>
+      <Seo title={homeTitle()} description={homeDescription()} path="/" />
+      <JsonLd />
+      <HashScroll />
+      <main>
+        <Hero />
+        <TrustBar />
+        <Leistungen />
+        <Ueber />
+        <Ablauf />
+        <Stimmen />
+        <Preise />
+        <Faq />
+        <Termin />
+      </main>
+    </>
+  )
+}
+
+function AppLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-svh bg-linen text-ink">
+      <Header />
+      {children}
+      <Footer />
+    </div>
   )
 }
 
 function App() {
-  const [hash, setHash] = useState(() => window.location.hash)
-
-  useEffect(() => {
-    const onHashChange = () => setHash(window.location.hash)
-    window.addEventListener('hashchange', onHashChange)
-    return () => window.removeEventListener('hashchange', onHashChange)
-  }, [])
-
-  const isImpressum = hash === '#impressum'
-  const isDatenschutz = hash === '#datenschutz'
-  const isLegal = isImpressum || isDatenschutz
-
-  useEffect(() => {
-    if (isLegal) {
-      window.scrollTo(0, 0)
-      return
-    }
-
-    const id = hash.replace('#', '')
-    if (!id || id === 'top') {
-      if (id === 'top') window.scrollTo(0, 0)
-      return
-    }
-
-    document.getElementById(id)?.scrollIntoView()
-  }, [hash, isLegal])
-
   return (
-    <div className="min-h-svh bg-linen text-ink">
-      <Header />
-      {isImpressum ? (
-        <Impressum />
-      ) : isDatenschutz ? (
-        <Datenschutz />
-      ) : (
-        <Home />
-      )}
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <AppLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/impressum" element={<Impressum />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AppLayout>
+    </BrowserRouter>
   )
 }
 

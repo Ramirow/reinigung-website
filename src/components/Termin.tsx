@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { site } from '../config/site'
 
 const inputClass =
   'w-full border-0 border-b border-stone bg-transparent py-2.5 text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-forest'
@@ -63,8 +64,19 @@ export function Termin() {
             Kontakt & Terminanfrage
           </h2>
           <p className="mt-5 max-w-sm text-[1.05rem] leading-relaxed text-muted md:text-lg">
-            Schreib uns eine Nachricht oder ruf direkt an – wir melden uns
-            schnellstmöglich mit einem unverbindlichen Angebot.
+            Schreib uns eine Nachricht
+            {site.phone ? (
+              <>
+                {' '}
+                oder ruf direkt an:{' '}
+                <a href={`tel:${site.phone.replace(/\s/g, '')}`} className="text-ink underline decoration-stone underline-offset-4">
+                  {site.phone}
+                </a>
+              </>
+            ) : (
+              ' oder ruf direkt an'
+            )}{' '}
+            – wir melden uns schnellstmöglich mit einem unverbindlichen Angebot.
           </p>
         </div>
 

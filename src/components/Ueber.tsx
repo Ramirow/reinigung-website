@@ -1,3 +1,5 @@
+import { site } from '../config/site'
+
 export function Ueber() {
   return (
     <section id="ueber" className="bg-cream px-6 py-24 md:px-10 lg:px-14">
@@ -7,7 +9,8 @@ export function Ueber() {
         </h2>
         <div className="max-w-xl space-y-5 text-[1.05rem] leading-relaxed text-muted md:text-lg">
           <p>
-            Reinigung wurde gegründet, um Hausreinigung einfach, verlässlich und
+            {site.name} wurde gegründet, um Wohnungsreinigung
+            {site.city ? ` in ${site.city}` : ''} einfach, verlässlich und
             stressfrei zu machen.
           </p>
           <p>

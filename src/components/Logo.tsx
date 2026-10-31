@@ -2,7 +2,7 @@ type LogoProps = {
   href?: string
 }
 
-export function Logo({ href = '#top' }: LogoProps) {
+export function Logo({ href = '/' }: LogoProps) {
   return (
     <a
       href={href}

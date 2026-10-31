@@ -34,7 +34,7 @@ export function Ablauf() {
           ))}
         </ol>
         <a
-          href="#termin"
+          href="/#termin"
           className="mt-14 inline-flex text-[0.95rem] font-medium text-ink underline decoration-stone underline-offset-4 transition-colors hover:decoration-ink"
         >
           Anfrage stellen
