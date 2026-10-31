@@ -27,10 +27,11 @@ export function Datenschutz() {
             ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen).
           </p>
           <p>
-            Die Übermittlung erfolgt über Netlify Forms (Netlify, Inc.). Die Daten
-            werden dort gespeichert und können per E-Mail an uns weitergeleitet
-            werden. Sie werden gelöscht, sobald die Anfrage abgeschlossen ist und
-            keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+            Die Übermittlung erfolgt per E-Mail über FormSubmit an{' '}
+            {site.email || 'uns'} und zusätzlich, soweit möglich, über Netlify
+            Forms. Die Daten dienen nur der Angebotserstellung und werden
+            gelöscht, sobald die Anfrage abgeschlossen ist und keine
+            gesetzlichen Aufbewahrungspflichten entgegenstehen.
           </p>
           <p>
             Diese Website lädt Schriftarten von Google Fonts und ein Vorschaubild

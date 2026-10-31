@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { emailAnfrage, postToNetlify } from '../lib/submitAnfrage'
 import { site } from '../config/site'
 
 const inputClass =
@@ -6,12 +7,7 @@ const inputClass =
 
 const FORM_NAME = 'anfrage'
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error' | 'local'
-
-function isLocalHost() {
-  const { hostname } = window.location
-  return hostname === 'localhost' || hostname === '127.0.0.1'
-}
+type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
 export function Termin() {
   const [status, setStatus] = useState<FormStatus>('idle')
@@ -21,34 +17,22 @@ export function Termin() {
     event.preventDefault()
     const form = event.currentTarget
     const data = new FormData(form)
-
-    if (isLocalHost()) {
-      setStatus('local')
-      return
+    const fields = {
+      name: String(data.get('name') ?? ''),
+      email: String(data.get('email') ?? ''),
+      phone: String(data.get('phone') ?? ''),
+      size: String(data.get('size') ?? ''),
+      date: String(data.get('date') ?? ''),
+      message: String(data.get('message') ?? ''),
     }
 
     setStatus('submitting')
 
     try {
-      const params = new URLSearchParams()
-      params.set('form-name', FORM_NAME)
-      for (const [key, value] of data.entries()) {
-        if (typeof value === 'string' && key !== 'form-name') {
-          params.append(key, value)
-        }
-      }
-
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString(),
-      })
-
-      // Netlify often answers 404 on AJAX posts even when the form was stored.
-      if (!response.ok && response.status !== 404) {
-        throw new Error(`submit-failed-${response.status}`)
-      }
-
+      await emailAnfrage(fields)
+      void postToNetlify(fields, String(data.get('bot-field') ?? '')).catch(
+        () => undefined,
+      )
       setStatus('success')
       form.reset()
     } catch {
@@ -189,15 +173,9 @@ export function Termin() {
 
             {status === 'error' && (
               <p className="sm:col-span-2 text-sm text-red-800" role="alert">
-                Die Anfrage konnte nicht gesendet werden. Bitte versuche es
-                erneut.
-              </p>
-            )}
-
-            {status === 'local' && (
-              <p className="sm:col-span-2 text-sm text-muted" role="status">
-                Lokal wird die Anfrage nicht zugestellt. Nach dem Deploy auf
-                Netlify erscheint sie unter Forms.
+                Die Anfrage konnte nicht gesendet werden. Beim ersten Mal muss
+                {site.email ? ` ${site.email}` : ' das Postfach'} den
+                Bestätigungslink von FormSubmit öffnen (auch im Spam prüfen).
               </p>
             )}
 

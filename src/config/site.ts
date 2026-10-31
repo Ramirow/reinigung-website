@@ -9,7 +9,7 @@ export const site = {
   region: 'Deutschland',
   street: '',
   zip: '',
-  email: '',
+  email: 'ramimourani36@gmail.com',
   phone: '',
   owner: '',
   url: (import.meta.env.VITE_SITE_URL as string | undefined)?.replace(/\/$/, '') ?? '',
